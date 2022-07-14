@@ -2,7 +2,7 @@
 
 namespace TicTacToe
 {
-    public partial class MainWindow : Form
+    public sealed partial class MainWindow : Form
     {
         public MainWindow()
         {
@@ -14,8 +14,11 @@ namespace TicTacToe
         {
             labelTurn.Text = _board.Turn ? "Player 1 Turn" : "Player 2 Turn";
 
-            if (_board.GameOver)
+            if (!_board.GameOver) return;
+            if (_board.Winner != Constants.TicType.Non)
                 MessageBox.Show(_board.Winner == Constants.TicType.X ? "GG X" : "GG O");
+            else
+                MessageBox.Show(@"DRAW");
         }
     }
 }

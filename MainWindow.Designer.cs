@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe
 {
-    partial class MainWindow
+    public sealed partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
