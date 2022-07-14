@@ -49,9 +49,6 @@
         <Compile Include="Board.cs">
           <SubType>UserControl</SubType>
         </Compile>
-        <Compile Include="Board.Designer.cs">
-          <DependentUpon>Board.cs</DependentUpon>
-        </Compile>
         <Compile Include="Constants.cs" />
         <Compile Include="MainWindow.cs">
             <SubType>Form</SubType>
@@ -64,9 +61,9 @@
         <Compile Include="TicButton.cs">
           <SubType>Component</SubType>
         </Compile>
-        <Compile Include="TicButton.Designer.cs">
-          <DependentUpon>TicButton.cs</DependentUpon>
-        </Compile>
+        <EmbeddedResource Include="MainWindow.resx">
+          <DependentUpon>MainWindow.cs</DependentUpon>
+        </EmbeddedResource>
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>

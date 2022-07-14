@@ -7,6 +7,12 @@ namespace TicTacToe
         public MainWindow()
         {
             InitializeComponent();
+            _board.TurnChanged += BoardOnTurnChanged;
+        }
+
+        private void BoardOnTurnChanged()
+        {
+            
         }
     }
 }

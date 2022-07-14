@@ -3,23 +3,24 @@ using System.Windows.Forms;
 
 namespace TicTacToe
 {
-    public partial class TicButton : Button
+    public class TicButton : Button
     {
-        public bool Shown { get; set; }
-        
-        public bool Turn { get; set; }
+        public bool Shown { get; private set; }
         
         public TicButton()
         {
-            InitializeComponent();
+            this.BackColor = DefaultBackColor;
+            this.FlatStyle = FlatStyle.Standard;
+            this.SetStyle(ControlStyles.Selectable, false);
         }
         
-        public void OnClick()
+        public void OnClick(bool turn)
         {
             /*this.Image = Turn
                 ? Image.FromFile(Constants.X_ImageButton)
                 : Image.FromFile(Constants.O_ImageButton);*/
-            MessageBox.Show(Turn ? "X clicked" : "O clicked");
+            MessageBox.Show(turn ? "X clicked" : "O clicked");
+            Shown = false;
         }
     }
 }

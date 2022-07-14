@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -6,17 +7,17 @@ namespace TicTacToe
 {
     public partial class Board : TableLayoutPanel
     {
-        public bool Turn { get; private set; } = true;
-
+        public event Action TurnChanged;
+        
         private readonly List<TicButton> _ticButtons;
+        
+        private bool _turn = true;
         public Board()
         {
             _ticButtons = new List<TicButton>();
-            InitializeComponent();
-            InitButtons();
         }
 
-        private void InitButtons()
+        public void InitButtons()
         {
             for (var i = 0; i < 9; i++)
             {
@@ -27,11 +28,10 @@ namespace TicTacToe
                 {
                     if (!ticButton.Shown)
                     {
-                        ticButton.Turn = this.Turn;
-                        ticButton.OnClick();
-                        ticButton.Shown = true;
-                        Turn = !Turn;
+                        ticButton.OnClick(_turn);
+                        _turn = !_turn;
                     }
+                    TurnChanged?.Invoke();
                 };
             }
         }
