@@ -46,6 +46,12 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Board.cs">
+          <SubType>UserControl</SubType>
+        </Compile>
+        <Compile Include="Board.Designer.cs">
+          <DependentUpon>Board.cs</DependentUpon>
+        </Compile>
         <Compile Include="MainWindow.cs">
             <SubType>Form</SubType>
         </Compile>

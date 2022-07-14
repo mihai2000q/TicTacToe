@@ -1,13 +1,16 @@
-﻿namespace TicTacToe
+﻿using System.ComponentModel;
+using System.Drawing;
+
+namespace TicTacToe
 {
-    partial class MainWindow
+    partial class Board
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -21,25 +24,23 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            _board = new Board();
-
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(_board);
-            this.Text = "MainWindow";
+            components = new System.ComponentModel.Container();
+            this.BackColor = Color.Khaki;
+            this.Size = new Size(450, 450);
+            this.MinimumSize = new Size(125, 125);
+            this.Location = new Point(0, 0);
+            this.ColumnCount = 3;
+            this.RowCount = 3;
         }
 
         #endregion
-
-        private Board _board;
     }
 }
