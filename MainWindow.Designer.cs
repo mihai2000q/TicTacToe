@@ -30,6 +30,7 @@
         private void InitializeComponent()
         {
             this._board = new TicTacToe.Board();
+            this.labelTurn = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // _board
@@ -51,19 +52,34 @@
             this._board.TabIndex = 0;
             _board.InitButtons();
             // 
+            // labelTurn
+            // 
+            this.labelTurn.BackColor = System.Drawing.Color.Transparent;
+            this.labelTurn.Cursor = System.Windows.Forms.Cursors.Default;
+            this.labelTurn.Font = new System.Drawing.Font("MV Boli", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTurn.Location = new System.Drawing.Point(520, 188);
+            this.labelTurn.Name = "labelTurn";
+            this.labelTurn.Size = new System.Drawing.Size(200, 49);
+            this.labelTurn.TabIndex = 1;
+            this.labelTurn.Text = "Player 1 Turn";
+            this.labelTurn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelTurn);
             this.Controls.Add(this._board);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
             this.ResumeLayout(false);
         }
 
+        private TicTacToe.Board _board;
+        private System.Windows.Forms.Label labelTurn;
+        
         #endregion
 
-        private TicTacToe.Board _board;
     }
 }

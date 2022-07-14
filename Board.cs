@@ -10,8 +10,9 @@ namespace TicTacToe
         public event Action TurnChanged;
         
         private readonly List<TicButton> _ticButtons;
-        
-        private bool _turn = true;
+
+        public bool Turn { get; private set; } = true;
+
         public Board()
         {
             _ticButtons = new List<TicButton>();
@@ -28,8 +29,8 @@ namespace TicTacToe
                 {
                     if (!ticButton.Shown)
                     {
-                        ticButton.OnClick(_turn);
-                        _turn = !_turn;
+                        ticButton.OnClick(Turn);
+                        Turn = !Turn;
                     }
                     TurnChanged?.Invoke();
                 };

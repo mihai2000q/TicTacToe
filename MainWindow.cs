@@ -12,7 +12,7 @@ namespace TicTacToe
 
         private void BoardOnTurnChanged()
         {
-            
+            labelTurn.Text = _board.Turn ? "Player 1 Turn" : "Player 2 Turn";
         }
     }
 }
