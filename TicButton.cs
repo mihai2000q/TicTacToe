@@ -25,7 +25,7 @@ namespace TicTacToe
                 ? ResizeImage(X_ImageButton, Size)
                 : ResizeImage(O_ImageButton, Size);
             Type = turn ? TicType.X : TicType.O;
-            Shown = false;
+            Shown = true;
         }
 
         private static Image ResizeImage(string path, Size size)
