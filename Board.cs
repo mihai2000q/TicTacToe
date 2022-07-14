@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace TicTacToe
 {
-    public partial class Board : TableLayoutPanel
+    public class Board : TableLayoutPanel
     {
         public event Action TurnChanged;
         
