@@ -54,8 +54,6 @@
             // 
             // labelTurn
             // 
-            this.labelTurn.BackColor = System.Drawing.Color.Transparent;
-            this.labelTurn.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelTurn.Font = new System.Drawing.Font("MV Boli", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTurn.Location = new System.Drawing.Point(520, 188);
             this.labelTurn.Name = "labelTurn";

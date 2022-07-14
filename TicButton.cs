@@ -9,8 +9,7 @@ namespace TicTacToe
     public sealed class TicButton : Button
     {
         public bool Shown { get; private set; }
-
-        public TicType Type { get; private set; } = TicType.Non;
+        public TicType Type { get; private set; }
 
         public TicButton()
         {
@@ -22,8 +21,8 @@ namespace TicTacToe
         public void OnClick(bool turn)
         {
             this.Image = turn
-                ? ResizeImage(XImageButton, Size)
-                : ResizeImage(OImageButton, Size);
+                ? ResizeImage(OImageButton, Size)
+                : ResizeImage(XImageButton, Size);
             Type = turn ? TicType.X : TicType.O;
             Shown = true;
         }

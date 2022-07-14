@@ -11,9 +11,9 @@ namespace TicTacToe
         
         private readonly List<TicButton> _ticButtons;
 
-        public bool Turn { get; private set; } = true;
+        public bool Turn { get; private set; }
         public bool GameOver { get; private set; }
-        public Constants.TicType Winner { get; private set; } = Constants.TicType.Non;
+        public Constants.TicType Winner { get; private set; }
 
         public Board()
         {
@@ -62,7 +62,7 @@ namespace TicTacToe
         {
             type = _ticButtons[a].Type;
             return _ticButtons[a].Type != Constants.TicType.Non &&
-                   (_ticButtons[a].Type == _ticButtons[b].Type &&  _ticButtons[b].Type == _ticButtons[c].Type);
+                   (_ticButtons[a].Type == _ticButtons[b].Type && _ticButtons[b].Type == _ticButtons[c].Type);
         }
 
         private bool IsDraw(out Constants.TicType type)
