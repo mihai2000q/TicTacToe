@@ -22,8 +22,8 @@ namespace TicTacToe
         public void OnClick(bool turn)
         {
             this.Image = turn
-                ? ResizeImage(X_ImageButton, Size)
-                : ResizeImage(O_ImageButton, Size);
+                ? ResizeImage(XImageButton, Size)
+                : ResizeImage(OImageButton, Size);
             Type = turn ? TicType.X : TicType.O;
             Shown = true;
         }
