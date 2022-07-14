@@ -23,7 +23,7 @@ namespace TicTacToe
             this.Image = turn
                 ? ResizeImage(OImageButton, Size)
                 : ResizeImage(XImageButton, Size);
-            Type = turn ? TicType.X : TicType.O;
+            Type = turn ? TicType.O : TicType.X;
             Shown = true;
         }
 
