@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace TicTacToe
 {
@@ -39,8 +40,10 @@ namespace TicTacToe
             this.Location = new Point(0, 0);
             this.ColumnCount = 3;
             this.RowCount = 3;
+            this.Padding = new Padding(20,20,0,0);
         }
 
         #endregion
+
     }
 }
