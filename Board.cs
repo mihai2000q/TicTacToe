@@ -20,9 +20,9 @@ namespace TicTacToe
         {
             for (var i = 0; i < 9; i++)
             {
-                _ticButtons.Add(new TicButton(this.MinimumSize));
-                this.Controls.Add(_ticButtons.Last());
+                _ticButtons.Add(new TicButton { Size = this.MinimumSize });
                 var ticButton = _ticButtons.Last();
+                this.Controls.Add(ticButton);
                 ticButton.Click += (sender, args) =>
                 {
                     if (!ticButton.Shown)

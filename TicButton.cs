@@ -1,20 +1,16 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace TicTacToe
 {
     public partial class TicButton : Button
     {
-        private readonly Size _size;
-
-        public bool Shown { get; set; } = false;
+        public bool Shown { get; set; }
         
         public bool Turn { get; set; }
         
-        public TicButton(Size size)
+        public TicButton()
         {
-            _size = size;
             InitializeComponent();
         }
         

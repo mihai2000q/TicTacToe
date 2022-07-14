@@ -33,7 +33,6 @@ namespace TicTacToe
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.Size = _size;
             this.BackColor = DefaultBackColor;
         }
 
