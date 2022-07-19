@@ -19,6 +19,13 @@ namespace TicTacToe
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 1;
             this.SetStyle(ControlStyles.Selectable, false);
+            this.Enabled = false;
+            this.EnabledChanged += (sender, args) =>
+            {
+                BackColor = !Enabled 
+                    ? Color.FromArgb(255 / 2, DefaultBackColor) 
+                    : DefaultBackColor;
+            };
             AnimateButton(this);
         }
 
@@ -32,6 +39,7 @@ namespace TicTacToe
             timer.Interval = 1;
             timer.Tick += (sender, args) =>
             {
+                if(MainWindow.GameState == MainWindow.State.Paused) return;
                 if(ticButton.Width >= maxSize.Width && ticButton.Height >= maxSize.Height)
                     timer.Stop();
                 else if (ticButton.Width >= maxSize.Width)

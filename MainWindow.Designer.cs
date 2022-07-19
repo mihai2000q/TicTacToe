@@ -1,4 +1,7 @@
-﻿namespace TicTacToe
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace TicTacToe
 {
     public sealed partial class MainWindow
     {
@@ -30,6 +33,8 @@
         private void InitializeComponent()
         {
             this._board = new TicTacToe.Board();
+            this._pausePanel = new TicTacToe.PausePanel(new Size(800,450));
+            this.buttonPause = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _board
@@ -53,19 +58,41 @@
             this._board.Size = new System.Drawing.Size(450, 450);
             this._board.TabIndex = 0;
             // 
+            // buttonPause
+            // 
+            this.buttonPause.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonPause.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonPause.Location = new System.Drawing.Point(687, 12);
+            this.buttonPause.Name = "buttonPause";
+            this.buttonPause.Size = new System.Drawing.Size(101, 52);
+            this.buttonPause.TabIndex = 1;
+            this.buttonPause.Text = "Pause";
+            this.buttonPause.UseVisualStyleBackColor = false;
+            this.buttonPause.Click += new System.EventHandler(this.buttonPause_Click);
+            //
+            // _pausePanel
+            //
+            this._pausePanel.Location = new Point(800 / 4, 450 / 4);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._pausePanel);
+            this.Controls.Add(this.buttonPause);
             this.Controls.Add(this._board);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
             this.ResumeLayout(false);
         }
 
+        private System.Windows.Forms.Button buttonPause;
+
         private TicTacToe.Board _board;
-        
+        private TicTacToe.PausePanel _pausePanel;
+
         #endregion
 
     }

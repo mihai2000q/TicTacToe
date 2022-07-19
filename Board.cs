@@ -3,24 +3,31 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static TicTacToe.Constants;
 
 namespace TicTacToe
 {
     public sealed class Board : TableLayoutPanel
     {
-        public event Action<Constants.TicType> TurnChanged;
+        public event Action<TicType> TurnChanged;
         public event Action GameStarted;
-        public event Action<Constants.TicType> GameFinished;
+        public event Action<TicType> GameFinished;
         
         private readonly List<TicButton> _ticButtons;
 
         private bool _turn;
         private bool _gameOver;
-        private Constants.TicType Winner { get; set; }
+        private TicType Winner { get; set; }
 
         public Board()
         {
             _ticButtons = new List<TicButton>(9);
+            EnabledChanged += (sender, args) =>
+            {
+                BackColor = !Enabled 
+                    ? Color.FromArgb(255 / 2, Color.Khaki) 
+                    : Color.Khaki;
+            };
         }
         
         public void SummonButtons()
@@ -31,21 +38,20 @@ namespace TicTacToe
             timer.Interval = 250;
             timer.Tick += (sender, args) =>
             {
+                if (MainWindow.GameState == MainWindow.State.Paused) return;
                 i++;
-                _ticButtons.Add(new TicButton(this.MinimumSize));
+                _ticButtons.Add(new TicButton(MinimumSize));
                 InitButtons(_ticButtons.Last());
-                if (i == max)
-                {
-                    timer.Stop();
-                    GameStarted?.Invoke();
-                }
+                if (i != max) return;
+                timer.Stop();
+                GameStarted?.Invoke();
             };
             timer.Start();
         }
 
         private void InitButtons(TicButton ticButton)
         {
-            this.Controls.Add(ticButton);
+            Controls.Add(ticButton);
             ticButton.Click += (sender, args) =>
             {
                 if (ticButton.Shown || MainWindow.GameState != MainWindow.State.Playing) return;
@@ -56,7 +62,7 @@ namespace TicTacToe
                     _gameOver = true;
                     _turn = false;
                     Winner = type;
-                    if(Winner != Constants.TicType.Non)
+                    if(Winner != TicType.Non)
                         ticButtons.ForEach(tic =>
                         {
                             tic.FlatAppearance.BorderSize = 3;
@@ -70,11 +76,11 @@ namespace TicTacToe
                     Reset();
                 }
 
-                TurnChanged?.Invoke(_turn ? Constants.TicType.O : Constants.TicType.X);
+                TurnChanged?.Invoke(_turn ? TicType.O : TicType.X);
             };
         }
         
-        private bool IsEnd(out Constants.TicType type, out List<TicButton> ticButtons)
+        private bool IsEnd(out TicType type, out List<TicButton> ticButtons)
         {
             return IsPattern(1, 2, 3, out type, out ticButtons) ||
                    IsPattern(4, 5, 6, out type, out ticButtons) ||
@@ -87,7 +93,7 @@ namespace TicTacToe
                    IsDraw(out type, out ticButtons);
         }
 
-        private bool IsPattern(int a, int b, int c, out Constants.TicType type, out List<TicButton> ticButtons)
+        private bool IsPattern(int a, int b, int c, out TicType type, out List<TicButton> ticButtons)
         {
             type = _ticButtons[a - 1].Type;
             ticButtons = new List<TicButton>(3)
@@ -96,22 +102,22 @@ namespace TicTacToe
                 _ticButtons[b - 1],
                 _ticButtons[c - 1]
             };
-            return _ticButtons[a - 1].Type != Constants.TicType.Non &&
-                   (_ticButtons[a - 1].Type == _ticButtons[b - 1].Type && _ticButtons[b - 1].Type == _ticButtons[c - 1].Type);
+            return ticButtons[0].Type != TicType.Non &&
+                   (ticButtons[0].Type == ticButtons[1].Type && ticButtons[1].Type == ticButtons[2].Type);
         }
 
-        private bool IsDraw(out Constants.TicType type, out List<TicButton> ticButtons)
+        private bool IsDraw(out TicType type, out List<TicButton> ticButtons)
         {
             ticButtons = new List<TicButton>(0);
-            type = Constants.TicType.Non;
-            return _ticButtons.All(tic => tic.Type != Constants.TicType.Non);
+            type = TicType.Non;
+            return _ticButtons.All(tic => tic.Type != TicType.Non);
         }
 
         private void Reset()
         {
             _gameOver = false;
-            Winner = Constants.TicType.Non;
-            this.Controls.Clear();
+            Winner = TicType.Non;
+            Controls.Clear();
             _ticButtons.Clear();
             SummonButtons();
         }

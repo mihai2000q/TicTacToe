@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace TicTacToe
@@ -14,6 +15,8 @@ namespace TicTacToe
             InitializeComponent();
             FadeIn();
             InitEvents();
+            _pausePanel.Hide();
+            _pausePanel.ButtonBack.Click += ButtonBack_Click;
         }
 
         private void InitEvents()
@@ -26,6 +29,8 @@ namespace TicTacToe
             _board.GameStarted += () =>
             {
                 GameState = State.Playing;
+                foreach (Control control in _board.Controls)
+                    control.Enabled = true;
                 AnimateLabelRollingDown(this, new Label(), "Player X Turn", 365);
             };
             _board.GameFinished += (winner) =>
@@ -74,21 +79,47 @@ namespace TicTacToe
             timer.Interval = 1;
             timer.Tick += (sender, args) =>
             {
-                if (label.Location.Y >= form.Size.Height)
+                if (GameState == State.Paused)
                 {
-                    timer.Stop();
-                    label.Dispose();
+                    label.Location = label.Location;
                 }
-
-                if (label.Location.Y < maxY || label.Location.Y > maxY + maxY / 2)
-                    speed = initialSpeed;
                 else
-                    speed = laterSpeed;
-                
-                label.Location = new Point(x, yPosition);
-                yPosition += speed;
+                {
+                    if (label.Location.Y >= form.Size.Height)
+                    {
+                        timer.Stop();
+                        label.Dispose();
+                    }
+
+                    if (label.Location.Y < maxY || label.Location.Y > maxY + maxY / 2)
+                        speed = initialSpeed;
+                    else
+                        speed = laterSpeed;
+
+                    label.Location = new Point(x, yPosition);
+                    yPosition += speed;
+                }
             };
             timer.Start();
+        }
+
+        private void buttonPause_Click(object sender, EventArgs e)
+        {
+            GameState = State.Paused;
+            _pausePanel.Show();
+            foreach (Control control in Controls)
+                if(control is PausePanel)
+                    continue;
+                else
+                    control.Enabled = false;
+        }
+
+        private void ButtonBack_Click(object sender, EventArgs e)
+        {
+            GameState = State.Playing;
+            _pausePanel.Hide();
+            foreach (Control control in Controls)
+                control.Enabled = true;
         }
     }
 }
