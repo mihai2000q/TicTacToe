@@ -33,7 +33,7 @@ namespace TicTacToe
         private void InitializeComponent()
         {
             this._board = new TicTacToe.Board();
-            this._pausePanel = new TicTacToe.PausePanel(new Size(800,450));
+            this._pausePanel = new TicTacToe.PausePanel();
             this.buttonPause = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -58,9 +58,17 @@ namespace TicTacToe
             this._board.Size = new System.Drawing.Size(450, 450);
             this._board.TabIndex = 0;
             // 
+            // _pausePanel
+            // 
+            this._pausePanel.BackColor = System.Drawing.Color.Gainsboro;
+            this._pausePanel.Location = new System.Drawing.Point(200, 112);
+            this._pausePanel.Name = "_pausePanel";
+            this._pausePanel.Size = new System.Drawing.Size(400, 225);
+            this._pausePanel.TabIndex = 0;
+            // 
             // buttonPause
             // 
-            this.buttonPause.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonPause.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.buttonPause.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonPause.Location = new System.Drawing.Point(687, 12);
@@ -70,10 +78,6 @@ namespace TicTacToe
             this.buttonPause.Text = "Pause";
             this.buttonPause.UseVisualStyleBackColor = false;
             this.buttonPause.Click += new System.EventHandler(this.buttonPause_Click);
-            //
-            // _pausePanel
-            //
-            this._pausePanel.Location = new Point(800 / 4, 450 / 4);
             // 
             // MainWindow
             // 

@@ -108,8 +108,10 @@ namespace TicTacToe
             GameState = State.Paused;
             _pausePanel.Show();
             foreach (Control control in Controls)
-                if(control is PausePanel)
-                    continue;
+                if (control is PausePanel)
+                {
+                    //ignore
+                }
                 else
                     control.Enabled = false;
         }
@@ -120,6 +122,7 @@ namespace TicTacToe
             _pausePanel.Hide();
             foreach (Control control in Controls)
                 control.Enabled = true;
+            //unless there is a control that I still want disabled
         }
     }
 }
