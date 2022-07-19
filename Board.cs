@@ -62,7 +62,7 @@ namespace TicTacToe
                    IsPattern(3, 6, 9, out type, out ticButtons) ||
                    IsPattern(1, 5, 9, out type, out ticButtons) ||
                    IsPattern(3, 5, 7, out type, out ticButtons) ||
-                   IsDraw(out type);
+                   IsDraw(out type, out ticButtons);
         }
 
         private bool IsPattern(int a, int b, int c, out Constants.TicType type, out List<TicButton> ticButtons)
@@ -78,8 +78,9 @@ namespace TicTacToe
                    (_ticButtons[a - 1].Type == _ticButtons[b - 1].Type && _ticButtons[b - 1].Type == _ticButtons[c - 1].Type);
         }
 
-        private bool IsDraw(out Constants.TicType type)
+        private bool IsDraw(out Constants.TicType type, out List<TicButton> ticButtons)
         {
+            ticButtons = new List<TicButton>(0);
             type = Constants.TicType.Non;
             return _ticButtons.All(tic => tic.Type != Constants.TicType.Non);
         }
