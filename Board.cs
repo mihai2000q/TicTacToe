@@ -32,7 +32,7 @@ namespace TicTacToe
                     if (ticButton.Shown) return;
                     ticButton.OnClick(Turn);
                     Turn = !Turn;
-                    if (CheckEnd(out var type))
+                    if (IsEnd(out var type))
                     {
                         GameOver = true;
                         Winner = type;
@@ -45,7 +45,7 @@ namespace TicTacToe
             }
         }
 
-        private bool CheckEnd(out Constants.TicType type)
+        private bool IsEnd(out Constants.TicType type)
         {
             return IsPattern(0, 1, 2, out type) ||
                    IsPattern(3, 4, 5, out type) ||
