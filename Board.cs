@@ -8,50 +8,72 @@ namespace TicTacToe
 {
     public sealed class Board : TableLayoutPanel
     {
-        public event Action TurnChanged;
+        public event Action<Constants.TicType> TurnChanged;
+        public event Action GameStarted;
+        public event Action<Constants.TicType> GameFinished;
         
         private readonly List<TicButton> _ticButtons;
 
-        public bool Turn { get; private set; }
-        public bool GameOver { get; private set; }
-        public Constants.TicType Winner { get; private set; }
+        private bool _turn;
+        private bool _gameOver;
+        private Constants.TicType Winner { get; set; }
 
         public Board()
         {
             _ticButtons = new List<TicButton>(9);
         }
-
-        public void InitButtons()
+        
+        public void SummonButtons()
         {
-            for (var i = 0; i < 9; i++)
+            var i = 0;
+            const int max = 9;
+            var timer = new Timer();
+            timer.Interval = 250;
+            timer.Tick += (sender, args) =>
             {
-                _ticButtons.Add(new TicButton { Size = this.MinimumSize });
-                var ticButton = _ticButtons.Last();
-                this.Controls.Add(ticButton);
-                ticButton.Click += (sender, args) =>
+                i++;
+                _ticButtons.Add(new TicButton(this.MinimumSize));
+                InitButtons(_ticButtons.Last());
+                if (i == max)
                 {
-                    if (ticButton.Shown) return;
-                    ticButton.OnClick(Turn);
-                    Turn = !Turn;
-                    if (IsEnd(out var type, out var ticButtons))
-                    {
-                        GameOver = true;
-                        Winner = type;
-                        if(Winner != Constants.TicType.Non)
-                            ticButtons.ForEach(tic =>
-                            {
-                                tic.FlatAppearance.BorderSize = 3;
-                                tic.FlatAppearance.BorderColor = Color.LimeGreen;
-                            });
-                    }
-                    TurnChanged?.Invoke();
-                    
-                    if(GameOver)
-                        Reset();
-                };
-            }
+                    timer.Stop();
+                    GameStarted?.Invoke();
+                }
+            };
+            timer.Start();
         }
 
+        private void InitButtons(TicButton ticButton)
+        {
+            this.Controls.Add(ticButton);
+            ticButton.Click += (sender, args) =>
+            {
+                if (ticButton.Shown || MainWindow.GameState != MainWindow.State.Playing) return;
+                ticButton.OnClick(_turn);
+                _turn = !_turn;
+                if (IsEnd(out var type, out var ticButtons))
+                {
+                    _gameOver = true;
+                    _turn = false;
+                    Winner = type;
+                    if(Winner != Constants.TicType.Non)
+                        ticButtons.ForEach(tic =>
+                        {
+                            tic.FlatAppearance.BorderSize = 3;
+                            tic.FlatAppearance.BorderColor = Color.LimeGreen;
+                        });
+                }
+
+                if (_gameOver)
+                {
+                    GameFinished?.Invoke(Winner);
+                    Reset();
+                }
+
+                TurnChanged?.Invoke(_turn ? Constants.TicType.O : Constants.TicType.X);
+            };
+        }
+        
         private bool IsEnd(out Constants.TicType type, out List<TicButton> ticButtons)
         {
             return IsPattern(1, 2, 3, out type, out ticButtons) ||
@@ -87,11 +109,11 @@ namespace TicTacToe
 
         private void Reset()
         {
-            GameOver = false;
+            _gameOver = false;
             Winner = Constants.TicType.Non;
             this.Controls.Clear();
             _ticButtons.Clear();
-            InitButtons();
+            SummonButtons();
         }
     }
 }

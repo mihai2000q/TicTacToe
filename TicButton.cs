@@ -9,19 +9,39 @@ namespace TicTacToe
 {
     public sealed class TicButton : Button
     {
-        private readonly Timer _timer;
-
         public bool Shown { get; private set; }
         public TicType Type { get; private set; }
         
-        public TicButton()
+        public TicButton(Size size)
         {
-            _timer = new Timer();
-            _timer.Interval = 1;
+            this.Size = size;
             this.BackColor = DefaultBackColor;
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 1;
             this.SetStyle(ControlStyles.Selectable, false);
+            AnimateButton(this);
+        }
+
+        private static void AnimateButton(TicButton ticButton)
+        {
+            var maxSize = ticButton.Size;
+            ticButton.Size = new Size(0, 0);
+            const int speed = 5;
+
+            var timer = new Timer();
+            timer.Interval = 1;
+            timer.Tick += (sender, args) =>
+            {
+                if(ticButton.Width >= maxSize.Width && ticButton.Height >= maxSize.Height)
+                    timer.Stop();
+                else if (ticButton.Width >= maxSize.Width)
+                    ticButton.Size = new Size(ticButton.Width, ticButton.Height + speed);
+                else if (ticButton.Height >= maxSize.Height)
+                    ticButton.Size = new Size(ticButton.Width + speed, ticButton.Height);
+                else
+                    ticButton.Size = new Size(ticButton.Width + speed, ticButton.Height + speed);
+            };
+            timer.Start();
         }
         
         public void OnClick(bool turn)
@@ -36,8 +56,10 @@ namespace TicTacToe
 
         private void StartAnimatingX(int initWidth, int initHeight, int maxWidth, int maxHeight, bool isLeft)
         {
-            const int speed = 3;
-            _timer.Tick += (sender, args) =>
+            var timer = new Timer();
+            timer.Interval = 1;
+            const int speed = 5;
+            timer.Tick += (sender, args) =>
             {
                 if (isLeft)
                 {
@@ -65,7 +87,7 @@ namespace TicTacToe
                     this.Image = DrawX(initWidth, initHeight, false);
 
                     if (initWidth <= maxWidth && initHeight >= maxHeight)
-                        _timer.Stop();
+                        timer.Stop();
                     else if (initHeight >= maxHeight)
                         initWidth -= speed;
                     else if (initWidth <= maxWidth)
@@ -77,7 +99,7 @@ namespace TicTacToe
                     }
                 }
             };
-            _timer.Start();
+            timer.Start();
         }
         private Image DrawX(int w, int h, bool isLeft)
         {
@@ -103,19 +125,21 @@ namespace TicTacToe
         }
         private void StartAnimatingO()
         {
-            const int speed = 10;
+            var timer = new Timer();
+            timer.Interval = 1;
+            const int speed = 18;
             const int maxAngle = 360;
             var initAngle = 0;
-            _timer.Tick += (sender, args) =>
+            timer.Tick += (sender, args) =>
             {
                 this.Image = DrawO(initAngle);
 
                 if (initAngle >= maxAngle)
-                    _timer.Stop();
+                    timer.Stop();
                 else
                     initAngle += speed;
             };
-            _timer.Start();
+            timer.Start();
         }
         private Image DrawO(int angle)
         {
