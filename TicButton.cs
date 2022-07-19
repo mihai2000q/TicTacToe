@@ -3,19 +3,21 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 using static TicTacToe.Constants;
+using Timer = System.Windows.Forms.Timer;
 
 namespace TicTacToe
 {
     public sealed class TicButton : Button
     {
-        private readonly Image _imageX;
-        private readonly Image _imageO;
-        
+        private readonly Timer _timer;
+
         public bool Shown { get; private set; }
         public TicType Type { get; private set; }
-
+        
         public TicButton()
         {
+            _timer = new Timer();
+            _timer.Interval = 1;
             this.BackColor = DefaultBackColor;
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 1;
@@ -24,12 +26,60 @@ namespace TicTacToe
         
         public void OnClick(bool turn)
         {
-            this.Image = turn ? DrawO() : DrawX();
+            if (turn)
+                StartAnimatingO();
+            else
+                StartAnimatingX(0,0,this.Size.Width / 2,this.Size.Height / 2, true);
             Type = turn ? TicType.O : TicType.X;
             Shown = true;
         }
 
-        private Image DrawX()
+        private void StartAnimatingX(int initWidth, int initHeight, int maxWidth, int maxHeight, bool isLeft)
+        {
+            const int speed = 3;
+            _timer.Tick += (sender, args) =>
+            {
+                if (isLeft)
+                {
+                    this.Image = DrawX(initWidth, initHeight, true);
+
+                    if (initWidth >= maxWidth && initHeight >= maxHeight)
+                    {
+                        isLeft = false;
+                        initWidth = maxWidth;
+                        maxWidth = 0;
+                        initHeight = 0;
+                    }
+                    else if (initHeight >= maxHeight)
+                        initWidth += speed;
+                    else if (initWidth >= maxWidth)
+                        initHeight += speed;
+                    else
+                    {
+                        initHeight += speed;
+                        initWidth += speed;
+                    }
+                }
+                else
+                {
+                    this.Image = DrawX(initWidth, initHeight, false);
+
+                    if (initWidth <= maxWidth && initHeight >= maxHeight)
+                        _timer.Stop();
+                    else if (initHeight >= maxHeight)
+                        initWidth -= speed;
+                    else if (initWidth <= maxWidth)
+                        initHeight += speed;
+                    else
+                    {
+                        initHeight += speed;
+                        initWidth -= speed;
+                    }
+                }
+            };
+            _timer.Start();
+        }
+        private Image DrawX(int w, int h, bool isLeft)
         {
             var width = this.Size.Width / 2;
             var height = this.Size.Height / 2;
@@ -40,14 +90,34 @@ namespace TicTacToe
             var blackPen = new Pen(Color.Black, 3);
 
             g.SmoothingMode = SmoothingMode.HighQuality;
-            g.DrawLine(blackPen, 0, 0, width,height);
-            g.DrawLine(blackPen, width, 0, 0, height);
+            if(isLeft)
+                g.DrawLine(blackPen, 0, 0, w,h);
+            else
+            {
+                g.DrawLine(blackPen, 0, 0, width,height);
+                g.DrawLine(blackPen, width, 0, w, h);
+            }
             g.Dispose();
 
             return b;
         }
-        
-        private Image DrawO()
+        private void StartAnimatingO()
+        {
+            const int speed = 10;
+            const int maxAngle = 360;
+            var initAngle = 0;
+            _timer.Tick += (sender, args) =>
+            {
+                this.Image = DrawO(initAngle);
+
+                if (initAngle >= maxAngle)
+                    _timer.Stop();
+                else
+                    initAngle += speed;
+            };
+            _timer.Start();
+        }
+        private Image DrawO(int angle)
         {
             var width = this.Size.Width / 2;
             var height = this.Size.Height / 2;
@@ -58,19 +128,9 @@ namespace TicTacToe
             var pen = new Pen(Color.Red, 3);
             
             g.SmoothingMode = SmoothingMode.HighQuality;
-            g.DrawEllipse(pen, 25, 25, width,height);
+            g.DrawArc(pen,25,25,width,height,0,angle);
             g.Dispose();
 
-            return b;
-        }
-        private static Image ResizeImage(string path, Size size)
-        {
-            var imageToResize = Image.FromFile(path);
-            var b = new Bitmap(size.Width, size.Height);
-            var g = Graphics.FromImage(b);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.DrawImage(imageToResize, 0, 0, size.Width, size.Height);
-            g.Dispose();
             return b;
         }
     }
