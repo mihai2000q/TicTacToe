@@ -40,7 +40,10 @@
             this._board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._board.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._board.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this._board.Location = new System.Drawing.Point(0, 0);
+            this._board.Margin = new System.Windows.Forms.Padding(0);
+            this._board.MaximumSize = new System.Drawing.Size(450, 450);
             this._board.MinimumSize = new System.Drawing.Size(125, 125);
             this._board.Name = "_board";
             this._board.Padding = new System.Windows.Forms.Padding(20, 20, 0, 0);
